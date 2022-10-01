@@ -2,9 +2,13 @@ import express from 'express'
 import products from './data/products.js' // with es modules, we need to use the .js ext to bring in files
 import dotenv from 'dotenv'
 const PORT = process.env.PORT || 5000
+import connectDB from './config/db.js'
+import colors from 'colors'
 
 dotenv.config()
 const app = express()
+
+connectDB()
 
 app.get('/', (req, res) => {
   res.send('Api is out here spinnin..')
@@ -21,5 +25,7 @@ app.get('/api/products/:id', (req, res) => {
 
 app.listen(
   PORT,
-  console.log(`server running on: ${PORT}, in ${process.env.NODE_ENV} mode`)
+  console.log(
+    `server running on: ${PORT}, in ${process.env.NODE_ENV} mode`.yellow.bold
+  )
 )
