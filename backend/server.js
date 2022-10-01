@@ -1,10 +1,11 @@
 import express from 'express'
-import products from './data/products.js' // with es modules, we need to use the .js ext to bring in files
+
 import dotenv from 'dotenv'
 const PORT = process.env.PORT || 5000
 import connectDB from './config/db.js'
 import colors from 'colors'
-
+import productRoutes from './routes/productRoutes.js' // with es modules, we need to use the .js ext to bring in files
+import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 dotenv.config()
 const app = express()
 
@@ -14,14 +15,10 @@ app.get('/', (req, res) => {
   res.send('Api is out here spinnin..')
 })
 
-app.get('/api/products', (req, res) => {
-  res.json(products)
-})
-app.get('/api/products/:id', (req, res) => {
-  const product = products.find((p) => p._id === req.params.id)
+app.use('/api/products', productRoutes)
 
-  res.json(product)
-})
+app.use(notFound)
+app.use(errorHandler)
 
 app.listen(
   PORT,
