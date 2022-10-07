@@ -6,6 +6,7 @@ import connectDB from './config/db.js'
 import colors from 'colors'
 import productRoutes from './routes/productRoutes.js' // with es modules, we need to use the .js ext to bring in files
 import userRoutes from './routes/userRoutes.js'
+import orderRoutes from './routes/orderRoutes.js'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 dotenv.config()
 const app = express()
@@ -19,7 +20,7 @@ app.use(cors())
 app.get('/', (req, res) => {
   res.send('Api is out here spinnin..')
 })
-
+app.use('/api/orders', orderRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
 
